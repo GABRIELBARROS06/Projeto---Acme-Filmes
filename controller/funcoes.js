@@ -5,7 +5,7 @@
 *Data:25/01/2024
 ****************************************/
 
-var sobreFilmes = require("../modulo/filmes.js");
+var sobreFilmes = require("../module/filmes.js");
 
 const getListarFilmes = () => {
 
@@ -41,3 +41,10 @@ console.log(jsonFilme)
 
 }
 //getMostrarFilme(1)
+
+module.exports = {
+
+getListarFilmes,
+getMostrarFilme
+
+}
