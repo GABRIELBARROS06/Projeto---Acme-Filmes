@@ -82,7 +82,7 @@ app.get('/v2/acmeFilmes/Listarfilmes', cors(), async function (request, response
 app.get('/v2/acmeFilmes/filme/:id', cors(), async function(request, response){
         let idFilme = request.params.id
     
-        let dadosFilme = await controllerFilmes.getBuscarFilme(idFilme)
+        let dadosFilme = await controller.getBuscarFilme(idFilme)
     
         response.status(dadosFilme.status_code)
         response.json(dadosFilme)
@@ -100,17 +100,33 @@ app.get('/v2/acmeFilmes/nomefilme', cors(), async function(request, response){
 //Criando um endpoint que cadastra um filme no banco de dados
 app.post('/v2/acmeFilmes/filme', cors(), bodyParserJSON, async function(request,response){
 
+//Recebe o content-type com o tipo de dados encaminhado na requisição
+const contentType = request.header('content-type');
+console.log(contentType);
+
 // Recebe todos os dados encaminhados na requisição pelo body        
-let dadosBody = request.body;
+let dadosBody = request.body
 
 //Encaminha os dados para o controller enviar para o DAO
-let resultDadosNovoFilme = await controller.setInserirNovoFilme(dadosBody);
+let resultDadosNovoFilme = await controller.setInserirNovoFilme(dadosBody, contentType);
 
 console.log(resultDadosNovoFilme)
 response.status(resultDadosNovoFilme.status_code);
 response.json(resultDadosNovoFilme);
 })    
+//Criando um endpoint que deleta um filme pelo id
+app.delete('/v2/acmeFilmes/deleteFilme/:id', cors(), async function(request, response){
 
+let idFilme = request.params.id
+
+let dadosFilme = await controller.setExcluirFilme(idFilme)
+
+response.status(dadosFilme.status_code)
+response.json(dadosFilme)
+
+})
+
+//Endpoint criado para ligar a API
 app.listen('8080', function () {
         console.log('API funcionando e aguardando requisições!!!!')
 })

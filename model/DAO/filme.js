@@ -85,17 +85,59 @@ const insertFilme = async function (dadosFilme) {
 }
 
 //Função para atualizar um filme no DB
-const updateFilme = async function () {
+const updateFilme = async function (dadosFilme, id) {
 
+    try {
+   
+        let sql;
+
+       if(dadosFilme == ''){
+        
+        sql = `update tbl_filme
+        set 
+        nome = '', 
+        sinopse = '', 
+        duracao = '', 
+        data_lancamento = '', 
+        data_relancamento = '', 
+        foto_capa = '', 
+        valor_unitario = ''
+        where id = 2;`
+
+       }
+        //Script Sql para filtrar pelo id
+        
+        //Executa o Sql no banco de dados
+        let rsFilme = await prisma.$queryRawUnsafe(sql)
+
+        return rsFilme
+
+    } catch (error) {
+        return false
+    }
 
 
 
 }
 
 //Função para deletar um filme no BD
-const deleteFilme = async function () {
+const deleteFilme = async function (id) {
 
+try{
+    let sql;
+   
 
+        sql = `delete from tbl_filme where id = ${id}`
+       
+        console.log(sql)
+  
+    let result = await prisma.$executeRawUnsafe(sql);
+
+   return result
+
+}catch(error){
+   return false;
+}
 
 
 }
