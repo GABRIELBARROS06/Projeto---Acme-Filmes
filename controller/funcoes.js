@@ -25,9 +25,8 @@ const jsonFilme = {}
 
 sobreFilmes.filmes.filmes.forEach(filmeGa => {
 
-if(filme == filmeGa.id) {
+if(filme == filmeGa.nome) {
 
-jsonFilme.nome = filmeGa.nome
 jsonFilme.sinopse = filmeGa.sinopse
 jsonFilme.lancamento = filmeGa.data_lancamento
 jsonFilme.foto = filmeGa.foto_capa
@@ -40,7 +39,7 @@ jsonFilme.foto = filmeGa.foto_capa
 console.log(jsonFilme)
 
 }
-//getMostrarFilme(1)
+//console.log(getMostrarFilme("O Segredo do Vale"))
 
 module.exports = {
 
