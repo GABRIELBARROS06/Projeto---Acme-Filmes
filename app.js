@@ -126,6 +126,23 @@ response.json(dadosFilme)
 
 })
 
+app.put('/v2/acmeFilmes/putFilme/:id', cors(), bodyParserJSON, async function(request,response){
+        const contentType = request.header('content-type');
+console.log(contentType);
+
+let idFilme = request.params.id
+
+// Recebe todos os dados encaminhados na requisição pelo body        
+let dadosBody = request.body
+
+//Encaminha os dados para o controller enviar para o DAO
+let resultDadosNovoFilme = await controller.setAtualizarFilme(dadosBody, contentType, idFilme);
+
+console.log(resultDadosNovoFilme)
+response.status(resultDadosNovoFilme.status_code);
+response.json(resultDadosNovoFilme);
+})
+
 //Endpoint criado para ligar a API
 app.listen('8080', function () {
         console.log('API funcionando e aguardando requisições!!!!')

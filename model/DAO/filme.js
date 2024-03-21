@@ -85,40 +85,71 @@ const insertFilme = async function (dadosFilme) {
 }
 
 //Função para atualizar um filme no DB
-const updateFilme = async function (dadosFilme, id) {
+const updateFilme = async function (dadosFilme) {
 
     try {
    
         let sql;
 
-       if(dadosFilme == ''){
+       if(dadosFilme.data_relancamento != '' &&
+       dadosFilme.data_relancamento != null &&
+       dadosFilme.data_relancamento != undefined){
+
+        console.log(dadosFilme.nome)
         
         sql = `update tbl_filme
         set 
-        nome = '', 
-        sinopse = '', 
-        duracao = '', 
-        data_lancamento = '', 
-        data_relancamento = '', 
-        foto_capa = '', 
-        valor_unitario = ''
-        where id = 2;`
+        nome = '${dadosFilme.nome}', 
+        sinopse = '${dadosFilme.sinopse}', 
+        duracao = '${dadosFilme.duracao}', 
+        data_lancamento = '${dadosFilme.data_lancamento}', 
+        data_relancamento = '${dadosFilme.data_relancamento}', 
+        foto_capa = '${dadosFilme.foto_capa}', 
+        valor_unitario = '${dadosFilme.valor_unitario}'
+
+        where id = ${dadosFilme.id} 
+        `
+
+        console.log(sql)
 
        }
+
+       else{
+
+        sql = `update tbl_filme
+        set 
+        nome = '${dadosFilme.nome}', 
+        sinopse = '${dadosFilme.sinopse}', 
+        duracao = '${dadosFilme.duracao}', 
+        data_lancamento = '${dadosFilme.data_lancamento}', 
+        data_relancamento = null, 
+        foto_capa = '${dadosFilme.foto_capa}',
+        valor_unitario = '${dadosFilme.valor_unitario}'
+
+        where id = ${dadosFilme.id} `
+
+        console.log(sql);
+
+       }
+
         //Script Sql para filtrar pelo id
+
+        let result = await prisma.$executeRawUnsafe(sql);
         
         //Executa o Sql no banco de dados
-        let rsFilme = await prisma.$queryRawUnsafe(sql)
+        console.log(result)
 
-        return rsFilme
-
+        if (result) {
+            return true
+        } else {
+            return false
+        }
     } catch (error) {
         return false
     }
 
-
-
 }
+
 
 //Função para deletar um filme no BD
 const deleteFilme = async function (id) {
